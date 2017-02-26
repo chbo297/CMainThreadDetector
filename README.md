@@ -9,6 +9,7 @@
 于是，有了这个MainThreadDetector的需求。  
 ##承  
 （以下内容节选自：[微信iOS卡顿监控系统](http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=207890859&idx=1&sn=e98dd604cdb854e7a5808d2072c29162&scene=21#wechat_redirect)）  
+
 发生卡顿，原因大致可分为一下几种：  
 * 抢锁：主线程需要访问 DB，而此时某个子线程往 DB 插入大量数据。通常抢锁的体验是偶尔卡一阵子，过会就恢复了。
 * 主线程大量 IO：主线程为了方便直接写入大量数据，会导致界面卡顿。
