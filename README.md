@@ -49,6 +49,39 @@
 
 ##合  
   
+  先开启子线程，并在其中执行timer用来ping主线程，这个timer不能因为程序卡顿而停止，需要一个以真实事件为准的timer：  
+  ```
+  dispatch_source_t createTimerInWorkerThread(uint64_t interval, dispatch_block_t block)
+{
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
+                                                     dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+    if (timer)
+    {
+        dispatch_source_set_timer(timer, dispatch_walltime(NULL, interval), interval, 0);
+        dispatch_source_set_event_handler(timer, block);
+        dispatch_resume(timer);
+    }
+    return timer;
+}
+  ```
+  在子线程中开启timer，每隔一段时间就执行ping操作：
+  
+  ```
+  createTimerInWorkerThread(interval, ^{
+        [self pingMainThreadAndWaitingPong];
+    });
+    
+  - (void)pingMainThreadAndWaitingPong
+{
+    if ([self startPongWaitingTimer]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:PING_NOTIFICATION object:nil];
+        });
+        
+    }
+}
+  ```
+  
   
   
   
