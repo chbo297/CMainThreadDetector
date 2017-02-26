@@ -1,5 +1,8 @@
 # CMainThreadDetector  
-[![Build Status](https://travis-ci.org/chbo297/CMainThreadDetector.svg?branch=master)](https://travis-ci.org/chbo297/CMainThreadDetector)  
+[![Build Status](https://travis-ci.org/chbo297/CMainThreadDetector.svg?branch=master)](https://travis-ci.org/chbo297/CMainThreadDetector)
+[![Version](https://img.shields.io/cocoapods/v/CMainThreadDetector.svg?style=flat)](http://cocoapods.org/pods/CMainThreadDetector)
+![License](https://img.shields.io/cocoapods/l/CMainThreadDetector.svg?style=flat)
+![Platform](https://img.shields.io/cocoapods/p/CMainThreadDetector.svg?style=flat)  
 
 ##起
 软件发布后，偶尔会有这样的反馈信息：  
