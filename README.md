@@ -137,9 +137,9 @@ signal(DUMPSTACK_SIGNAL, dumpStackSignalHandler);
 
 ```
   
-  以上。
-  CMainThreadDetector可以检测到主线程发生的卡顿，然后输出堆栈信息。
-  我写了一个Demo模拟大量运算的卡顿，进行测试（不可以在调试环境测试哦，调试环境下gdb也在向主线程发送signal，导致detector的signal失效，若要测试，安装到虚拟机／手机上运行即可）。
+  以上。  
+  CMainThreadDetector可以检测到主线程发生的卡顿，然后输出堆栈信息。  
+  这里有一个Demo模拟大量运算产生的卡顿，进行测试（不可以在调试环境测试哦，调试环境下gdb也在向主线程发送signal，导致detector的signal失效，若要测试，安装到虚拟机／手机上运行即可）。
   
 ##续  
   
