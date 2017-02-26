@@ -49,7 +49,7 @@
 
 ##合  
   
-  先开启子线程，并在其中执行timer用来ping主线程，这个timer不能因为程序卡顿而停止，需要一个以真实事件为准的timer：  
+  先开启子线程，并在其中执行timer用来ping主线程，这个timer不能因为程序卡顿而停止，需要一个以真实时间为准的timer：  
   
 ```
 
@@ -87,6 +87,67 @@
 
 ```
   
+  主线程中响应ping：  
+  
+```
+
+- (void)detectPing
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:PONG_NOTIFICATION object:nil];
+}
+
+```
+  
+  如果子线程在规定时间没有的到，则响应响应超时，开始要求主线程输出堆栈：
+  
+```
+
+- (void)signalMainThreadDumpStack {
+    pthread_kill(_detectThread, DUMPSTACK_SIGNAL);  //_detectThread是主线程
+}
+
+```
+  
+  这里是向主线程发送了一个用户自定义的signal，主线程接收到signal后会停止当前工作，进行一些定义的响应操作，在使用这个signal之前需要向主线程注册这个signal和相应操作的block：
+  
+```
+
+static void dumpStackSignalHandler(int sig)
+{
+    if (sig != DUMPSTACK_SIGNAL) {
+        return;
+    }
+    
+    NSArray* stackSymbols = [NSThread callStackSymbols];
+    
+    id<CMainThreadDetectorDelegate> delegate = [CMainThreadDetector sharedDetector].delegate;
+    if ([delegate respondsToSelector:@selector(mainThreadSlowDetectDump:)]) {
+        [delegate mainThreadSlowDetectDump:stackSymbols];
+    }
+    else
+    {
+        NSLog(@"mainThreadSlow:\n%@", stackSymbols);
+    }
+    
+    return;
+}
+
+signal(DUMPSTACK_SIGNAL, dumpStackSignalHandler);
+
+
+```
+  
+  以上。
+  CMainThreadDetector可以检测到主线程发生的卡顿，然后输出堆栈信息。
+  我写了一个Demo模拟大量运算的卡顿，进行测试（不可以在调试环境测试哦，调试环境下gdb也在向主线程发送signal，导致detector的signal失效，若要测试，安装到虚拟机／手机上运行即可）。
+  
+##续  
+  
+  这个工具可以作为一个帮助你检测程序性能问题的助手，告诉你程序在哪里发生了卡顿。
+  欢迎有更多开发者加入进来，扩展它的实用性。  
+  比如：  
+  添加时间检测算法，可设置时间阈值，对多次短时卡顿的识别功能；  
+  添加卡顿堆栈数据本地存储和上传功能；  
   
   
   
