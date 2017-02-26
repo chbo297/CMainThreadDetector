@@ -1,4 +1,6 @@
-# CMainThreadDetector
+# CMainThreadDetector  
+[![Build Status](https://travis-ci.org/chbo297/CMainThreadDetector.svg?branch=master)](https://travis-ci.org/chbo297/CMainThreadDetector)  
+
 ##起
 软件发布后，偶尔会有这样的反馈信息：  
 “打开某个页面时卡了一会儿”、“在某种情况下，做某种操作时软件很卡”。  
