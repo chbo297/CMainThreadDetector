@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/cocoapods/l/CMainThreadDetector.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/CMainThreadDetector.svg?style=flat)  
 
-##起
+## 起
 软件发布后，偶尔会有这样的反馈信息：  
 “打开某个页面时卡了一会儿”、“在某种情况下，做某种操作时软件很卡”。  
 偶尔发生，难以重现。   
@@ -13,7 +13,7 @@
 可能需要极特殊的时机下才会出现，   
 难以重现，难以发觉。大多数情况下只能去沿着代码逻辑细细推敲。  
 于是，有了这个MainThreadDetector的需求。  
-##承  
+## 承  
 （以下部分内容节选自：[微信iOS卡顿监控系统](http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=207890859&idx=1&sn=e98dd604cdb854e7a5808d2072c29162&scene=21#wechat_redirect)）  
 
 发生卡顿，原因大致可分为以下几种：  
@@ -36,7 +36,7 @@
   2.基于RunLoop机制下，检测每次loop的时长。  
   3.在子线程中养一只小狗，不停地呼叫主线程，主线程进行响应，如果响应超时，说明主线程卡住了。  
   
-##转  
+## 转  
   
   上述三个思路：  
   第1个思路，  
@@ -53,7 +53,7 @@
   
   本项目使用第3个思路。  
 
-##合  
+## 合  
   
   先开启子线程，并在其中执行timer用来ping主线程，这个timer不能因为程序卡顿而停止，需要一个以真实时间为准的timer：  
   
@@ -147,7 +147,7 @@ signal(DUMPSTACK_SIGNAL, dumpStackSignalHandler);
   CMainThreadDetector可以检测到主线程发生的卡顿，然后输出堆栈信息。  
   这里有一个Demo模拟大量运算产生的卡顿，进行测试（不可以在调试环境测试哦，调试环境下gdb也在向主线程发送signal，导致detector的signal失效，若要测试，安装到虚拟机／手机上运行即可）。
   
-##续  
+## 续  
   
   这个工具可以作为一个帮助你检测程序性能问题的助手，告诉你程序在哪里发生了卡顿。  
   欢迎有更多开发者加入进来，扩展它的实用性。  
