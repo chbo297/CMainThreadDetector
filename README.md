@@ -4,14 +4,28 @@
 ![License](https://img.shields.io/cocoapods/l/CMainThreadDetector.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/CMainThreadDetector.svg?style=flat)  
 
-## 起
-软件发布后，偶尔会有这样的反馈信息：  
-“打开某个页面时卡了一会儿”、“在某种情况下，做某种操作时软件很卡”。  
-偶尔发生，难以重现。   
-这些问题，   
-可能是在特定环境下才会发生(系统配置)，  
-可能需要极特殊的时机下才会出现，   
-难以重现，难以发觉。大多数情况下只能去沿着代码逻辑细细推敲。  
+## 实现思路
+开启一个子线程，  
+每隔一段时间ping一下主线程（比如一帧的时间1/60s），主线程pong反馈，  
+如果超时未响应，则代表主线程卡住了。  
+此时发送系统级中断信号，强制中断主线程并输出当前堆栈信息。  
+就可以看到是在哪里发生卡顿了～  
+
+## 使用方法  
+
+调用[[CMainThreadDetector sharedDetector] startDetecting]开启检测，比如可以在程序启动后开启：  
+
+
+```  
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[CMainThreadDetector sharedDetector] startDetecting];
+    
+    return YES;
+}
+
+```
+于是，有了这个MainThreadDetector的需求。 一个 
 于是，有了这个MainThreadDetector的需求。  
 ## 承  
 （以下部分内容节选自：[微信iOS卡顿监控系统](http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=207890859&idx=1&sn=e98dd604cdb854e7a5808d2072c29162&scene=21#wechat_redirect)）  
@@ -57,7 +71,7 @@
   
   先开启子线程，并在其中执行timer用来ping主线程，这个timer不能因为程序卡顿而停止，需要一个以真实时间为准的timer：  
   
-```
+```·、```
 
   dispatch_source_t createTimerInWorkerThread(uint64_t interval, dispatch_block_t block)
 {
