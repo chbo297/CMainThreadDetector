@@ -28,7 +28,10 @@
 ![pictap](https://github.com/chbo297/CMainThreadDetector/blob/master/CMainThreadDetectorDemo/demonstration.gif)   
   
 如上图，点击下方按钮，按下后会在主线程进行一次长时间运算，模拟一次卡顿的发生。  
-此时检测器监测到卡顿，输出了堆栈信息，可以看出，卡顿发生在ViewController的< blockingTheMainThread: >方法。
+此时检测器监测到卡顿，输出了堆栈信息，  
+可以看出，卡顿发生时，主线程的堆栈信息，  
+向下找到了[ViewController blockingTheMainThread]信息，  
+就是在这个方法里调用了大量操作导致主线程发生了卡顿。  
 
 
 可以通过设置这两个值调整监测的频率和阈值。
