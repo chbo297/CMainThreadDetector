@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CMainThreadDetector"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "detect main thread slow, dump stack symbols."
   s.description  = <<-DESC
 	detect main thread slow, dump stack symbols, use timer ping/pong main thread.
