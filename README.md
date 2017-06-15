@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/cocoapods/l/CMainThreadDetector.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/CMainThreadDetector.svg?style=flat)  
 
-## 实现原理
+## 原理
 开启一个子线程，  
 每隔一段时间ping一下主线程（比如一帧的时间1/60s），主线程pong反馈，  
 如果超时未响应，则代表主线程卡住了。  
