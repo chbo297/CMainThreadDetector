@@ -51,7 +51,7 @@ static void receiveDumpStackSignal(int sig)
 {
     pthread_t _detectThread;
     dispatch_source_t _cyclePingTimer;
-    dispatch_source_t _waitingPongTimer;
+    volatile dispatch_source_t _waitingPongTimer;
     
     UIWindow *_window;
     NSValue *_panBeginPoint;
@@ -274,6 +274,8 @@ dispatch_source_t createTimerInWorkerThread(uint64_t interval, dispatch_block_t 
             CGFloat move = current.y - begin.y;
             CGRect frame = _window.frame;
             frame.origin.y += move;
+            frame.origin.y = MIN([UIScreen mainScreen].bounds.size.height - frame.size.height, frame.origin.y);
+            frame.origin.y = MAX(- (frame.size.height - 50), frame.origin.y);
             _window.frame = frame;
         }
     } else if (UIGestureRecognizerStateEnded == pan.state) {
@@ -297,6 +299,7 @@ dispatch_source_t createTimerInWorkerThread(uint64_t interval, dispatch_block_t 
             CGRect frame = _window.frame;
             frame.size.height += move;
             frame.size.height = MAX(50, frame.size.height);
+            frame.size.height = MIN([UIScreen mainScreen].bounds.size.height - frame.origin.y, frame.size.height);
             _window.frame = frame;
         }
     } else if (UIGestureRecognizerStateEnded == pan.state) {

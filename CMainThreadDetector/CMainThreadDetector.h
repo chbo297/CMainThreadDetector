@@ -6,8 +6,7 @@
 //  Copyright © 2017 bo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 @protocol CMainThreadDetectorDelegate <NSObject>
 
@@ -24,5 +23,7 @@
 - (void)startDetecting;
 
 - (void)stopDetecting;
+
+@property (nonatomic, strong) UITextView *outputView;
 
 @end

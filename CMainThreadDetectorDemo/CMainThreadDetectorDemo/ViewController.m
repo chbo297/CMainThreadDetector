@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "CMainThreadDetector.h"
 
-@interface ViewController () <CMainThreadDetectorDelegate>
+@interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @end
@@ -18,15 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
 
-- (void)mainThreadSlowDetectDump:(NSArray<NSString *> *)stackSymbols {
-    self.textView.text = stackSymbols.description;
-    UINavigationController
-}
-
-- (IBAction)doThreadBusy:(id)sender {
+- (IBAction)blockingTheMainThread:(id)sender {
     NSMutableString *str = [NSMutableString new];
     
     for (int o = 0; o < 10; o++) {

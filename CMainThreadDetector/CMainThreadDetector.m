@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <signal.h>
 
-#define DETECT_INTERVAL     1.0f
+#define DETECT_INTERVAL     0.1f
 #define DETECT_TIMELIMIT     (1.0f/60.0f)
 
 #define PING_NOTIFICATION @"ping_notification"
@@ -37,8 +37,12 @@ static void receiveDumpStackSignal(int sig)
     }
     else
     {
-        NSLog(@"mainThreadSlow:\n%@", stackSymbols);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *pre = [CMainThreadDetector sharedDetector].outputView.text;
+            [CMainThreadDetector sharedDetector].outputView.text = [[stackSymbols description] stringByAppendingString:[NSString stringWithFormat:@"\n===========================\n%@", pre]];
+        });
     }
+    
     
     return;
 }
@@ -47,7 +51,11 @@ static void receiveDumpStackSignal(int sig)
 {
     pthread_t _detectThread;
     dispatch_source_t _cyclePingTimer;
-    dispatch_source_t _waitingPongTimer;
+    volatile dispatch_source_t _waitingPongTimer;
+    
+    UIWindow *_window;
+    NSValue *_panBeginPoint;
+    NSValue *_dragBeginPoint;
 }
 
 + (instancetype)sharedDetector {
@@ -208,6 +216,99 @@ dispatch_source_t createTimerInWorkerThread(uint64_t interval, dispatch_block_t 
     }
     
     [self cancelPingTimer];
+}
+
+#pragma mark - output view
+
+- (UITextView *)outputView
+{
+    if (!_outputView) {
+        
+        CGSize textsize = CGSizeMake((UIScreen.mainScreen.bounds.size.width), 120);
+        _outputView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, textsize.width, textsize.height)];
+        _outputView.editable = NO;
+        _outputView.backgroundColor = [UIColor greenColor];
+        _outputView.text = @"display stack symbols when main thread slow";
+        
+        UIView *panview = [[UIView alloc] initWithFrame:CGRectMake(textsize.width - 50, textsize.height, 50, 50)];
+        panview.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+        [panview addGestureRecognizer:pan];
+        
+        
+        UIView *dragview = [[UIView alloc] initWithFrame:CGRectMake(0, textsize.height, 50, 50)];
+        dragview.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(drag:)];
+        [dragview addGestureRecognizer:drag];
+        
+        UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0,
+                                                                      textsize.width,
+                                                                      textsize.height + panview.bounds.size.height)];
+        UIViewController *vc = [UIViewController new];
+        [window setRootViewController:vc];
+        window.windowLevel = UIWindowLevelStatusBar + 1;
+        [window addSubview:vc.view];
+        vc.view.frame = window.bounds;
+        [vc.view addSubview:_outputView];
+        [vc.view addSubview:panview];
+        [vc.view addSubview:dragview];
+        
+        _outputView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        panview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        dragview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        
+        window.hidden = NO;
+        _window = window;
+    }
+    return _outputView;
+}
+
+- (void)pan:(UIPanGestureRecognizer *)pan
+{
+    if (UIGestureRecognizerStateBegan == pan.state) {
+        _panBeginPoint = [NSValue valueWithCGPoint:[pan locationInView:pan.view]];
+    } else if (UIGestureRecognizerStateChanged == pan.state) {
+        if (_panBeginPoint) {
+            CGPoint current = [pan locationInView:pan.view];
+            CGPoint begin = [_panBeginPoint CGPointValue];
+            CGFloat move = current.y - begin.y;
+            CGRect frame = _window.frame;
+            frame.origin.y += move;
+            frame.origin.y = MIN([UIScreen mainScreen].bounds.size.height - frame.size.height, frame.origin.y);
+            frame.origin.y = MAX(- (frame.size.height - 50), frame.origin.y);
+            _window.frame = frame;
+        }
+    } else if (UIGestureRecognizerStateEnded == pan.state) {
+        _panBeginPoint = nil;
+    } else if (UIGestureRecognizerStateCancelled == pan.state) {
+        _panBeginPoint = nil;
+    } else if (UIGestureRecognizerStateFailed == pan.state) {
+        _panBeginPoint = nil;
+    }
+}
+
+- (void)drag:(UIPanGestureRecognizer *)pan
+{
+    if (UIGestureRecognizerStateBegan == pan.state) {
+        _dragBeginPoint = [NSValue valueWithCGPoint:[pan locationInView:pan.view]];
+    } else if (UIGestureRecognizerStateChanged == pan.state) {
+        if (_dragBeginPoint) {
+            CGPoint current = [pan locationInView:pan.view];
+            CGPoint begin = [_dragBeginPoint CGPointValue];
+            CGFloat move = current.y - begin.y;
+            CGRect frame = _window.frame;
+            frame.size.height += move;
+            frame.size.height = MAX(50, frame.size.height);
+            frame.size.height = MIN([UIScreen mainScreen].bounds.size.height - frame.origin.y, frame.size.height);
+            _window.frame = frame;
+        }
+    } else if (UIGestureRecognizerStateEnded == pan.state) {
+        _dragBeginPoint = nil;
+    } else if (UIGestureRecognizerStateCancelled == pan.state) {
+        _dragBeginPoint = nil;
+    } else if (UIGestureRecognizerStateFailed == pan.state) {
+        _dragBeginPoint = nil;
+    }
 }
 
 @end
