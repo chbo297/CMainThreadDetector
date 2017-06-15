@@ -25,6 +25,8 @@
 
 ```  
 
+CMainThreadDetector/CMainThreadDetectorDemo/demonstration.gif
+
 可以通过设置这两个值调整监测的频率和阈值。
 
 ```  
