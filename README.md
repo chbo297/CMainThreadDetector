@@ -26,13 +26,13 @@
 ```  
 
 ![pictap](https://github.com/chbo297/CMainThreadDetector/blob/master/CMainThreadDetectorDemo/demonstration.gif)   
-  
-如上图，点击下方按钮，按下后会在主线程进行一次长时间运算，模拟一次卡顿的发生。  
-此时检测器监测到卡顿，输出了堆栈信息，  
-可以看出，卡顿发生时，主线程的堆栈信息，  
-向下找到了[ViewController blockingTheMainThread]信息，  
-就是在这个方法里调用了大量操作导致主线程发生了卡顿。  
 
+如上图，点击下侧按钮，按下后会在主线程进行一次长时间运算，模拟一次卡顿的发生。  
+检测器监测到卡顿，输出了堆栈信息，  
+向下找到了[ViewController blockingTheMainThread]的栈信息，  
+这个方法里调用了大量操作使主线程发生了卡顿。  
+
+## 配置  
 
 可以通过设置这两个值调整监测的频率和阈值。
 
@@ -46,4 +46,4 @@
 可以通过设置delegate获取输出的堆栈，自行存储在文件中。
 
  
-需要注意的是，demo不可以在调试环境测试，因为调试环境下gdb也在向主线程发送signal，导致detector的signal失效，测试时，安装到虚拟机／手机上运行即可。  
+需要注意的是，demo不可以在调试环境测试，因为调试环境下gdb也在向主线程发送signal，导致detector的signal失效，在Xcode中不停的中断，测试时，安装到虚拟机／手机上运行即可。  
