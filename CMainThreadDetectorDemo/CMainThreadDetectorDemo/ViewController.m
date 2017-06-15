@@ -19,12 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [CMainThreadDetector sharedDetector].delegate = self;
-    [[CMainThreadDetector sharedDetector] startDetecting];
 }
 
 - (void)mainThreadSlowDetectDump:(NSArray<NSString *> *)stackSymbols {
     self.textView.text = stackSymbols.description;
+    UINavigationController
 }
 
 - (IBAction)doThreadBusy:(id)sender {

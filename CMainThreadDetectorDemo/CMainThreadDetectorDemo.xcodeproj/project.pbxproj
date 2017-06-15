@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95A514B31EF239BD004C3230 /* CMainThreadDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A514B21EF239BD004C3230 /* CMainThreadDetector.m */; };
 		95D6A0871E61BFDD00C6BF4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6A0861E61BFDD00C6BF4F /* main.m */; };
 		95D6A08A1E61BFDD00C6BF4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6A0891E61BFDD00C6BF4F /* AppDelegate.m */; };
 		95D6A08D1E61BFDD00C6BF4F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6A08C1E61BFDD00C6BF4F /* ViewController.m */; };
 		95D6A0901E61BFDD00C6BF4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95D6A08E1E61BFDD00C6BF4F /* Main.storyboard */; };
 		95D6A0921E61BFDD00C6BF4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95D6A0911E61BFDD00C6BF4F /* Assets.xcassets */; };
 		95D6A0951E61BFDD00C6BF4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95D6A0931E61BFDD00C6BF4F /* LaunchScreen.storyboard */; };
-		95D6A0AC1E61D92800C6BF4F /* CMainThreadDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6A0AB1E61D92800C6BF4F /* CMainThreadDetector.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		95A514B11EF239BD004C3230 /* CMainThreadDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMainThreadDetector.h; sourceTree = "<group>"; };
+		95A514B21EF239BD004C3230 /* CMainThreadDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMainThreadDetector.m; sourceTree = "<group>"; };
 		95D6A0821E61BFDD00C6BF4F /* CMainThreadDetectorDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMainThreadDetectorDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D6A0861E61BFDD00C6BF4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		95D6A0881E61BFDD00C6BF4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -27,8 +29,6 @@
 		95D6A0911E61BFDD00C6BF4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		95D6A0941E61BFDD00C6BF4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95D6A0961E61BFDD00C6BF4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95D6A0AA1E61D92800C6BF4F /* CMainThreadDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMainThreadDetector.h; sourceTree = "<group>"; };
-		95D6A0AB1E61D92800C6BF4F /* CMainThreadDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMainThreadDetector.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +86,8 @@
 		95D6A0A91E61D92800C6BF4F /* CMainThreadDetector */ = {
 			isa = PBXGroup;
 			children = (
-				95D6A0AA1E61D92800C6BF4F /* CMainThreadDetector.h */,
-				95D6A0AB1E61D92800C6BF4F /* CMainThreadDetector.m */,
+				95A514B11EF239BD004C3230 /* CMainThreadDetector.h */,
+				95A514B21EF239BD004C3230 /* CMainThreadDetector.m */,
 			);
 			path = CMainThreadDetector;
 			sourceTree = "<group>";
@@ -123,6 +123,7 @@
 				TargetAttributes = {
 					95D6A0811E61BFDD00C6BF4F = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 8ED2N2GBR7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -165,7 +166,7 @@
 			files = (
 				95D6A08D1E61BFDD00C6BF4F /* ViewController.m in Sources */,
 				95D6A08A1E61BFDD00C6BF4F /* AppDelegate.m in Sources */,
-				95D6A0AC1E61D92800C6BF4F /* CMainThreadDetector.m in Sources */,
+				95A514B31EF239BD004C3230 /* CMainThreadDetector.m in Sources */,
 				95D6A0871E61BFDD00C6BF4F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +287,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8ED2N2GBR7;
 				INFOPLIST_FILE = CMainThreadDetectorDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CC.CMainThreadDetectorDemo;
@@ -297,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8ED2N2GBR7;
 				INFOPLIST_FILE = CMainThreadDetectorDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = CC.CMainThreadDetectorDemo;
@@ -323,6 +326,7 @@
 				95D6A09B1E61BFDD00C6BF4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
