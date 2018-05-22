@@ -4,6 +4,11 @@
 ![License](https://img.shields.io/cocoapods/l/CMainThreadDetector.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/CMainThreadDetector.svg?style=flat)  
 
+
+检测主线程卡顿，输出卡顿时的堆栈信息.帮助开发者找到　app　中发生卡顿的位置。  
+Detect main thread slow ,and output stack symbols.
+
+
 ## 原理
 开启一个子线程，  
 每隔一段时间ping一下主线程（比如一帧的时间1/60s），主线程pong反馈，  
